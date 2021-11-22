@@ -48,7 +48,22 @@ public class BookLibrary {
     }
 
     public void startWorkLibrary() throws InterruptedException{
-        
+        for (PeopleReader peopleReader: lstPeopleReader){
+            Thread thread = new Thread(peopleReader);
+            threadsPeopleReader.add(thread);
+            thread.start();
+        }
+
+        int countThread = threadsPeopleReader.size();
+        while (countThread>0){
+            for (Thread thread : threadsPeopleReader){
+                if (thread.getState() == Thread.State.TERMINATED){
+                    countThread--;
+                }
+                Thread.sleep(200);
+            }
+        }
+
     }
 
 }
